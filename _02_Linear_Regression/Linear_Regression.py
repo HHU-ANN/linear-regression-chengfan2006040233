@@ -20,14 +20,14 @@ def lasso(data):
     x, y = read_data()
     w = np.array([0, 0, 0, 0, 0, 0])
     limit = 2e-5
-    a = 0.01
+    a = 0.0001
     step = 1e-12
     for i in range(int(2e6)):
-        z = np.dot(x, w)
-        loss = np.dot((z - y).transpose(), z - y) + a * np.sum(abs(w))
+        X = np.dot(x, w)
+        loss = np.dot((X - y).transpose(), X - y) + a * np.sum(abs(w))
         if loss < limit:
             break
-        dw = np.dot(z-y, x) + np.sign(w)
+        dw = np.dot(X - y, x) + np.sign(w)
         w = w - step * dw
     return w @ data
 
