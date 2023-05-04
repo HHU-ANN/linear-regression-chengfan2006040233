@@ -1,7 +1,6 @@
 # 最终在main函数中传入一个维度为6的numpy数组，输出预测值
 
 import os
-import sympy as sy
 
 try:
     import numpy as np
@@ -38,10 +37,7 @@ def lasso(data):
         db = np.sum(y_hat - y) / num
         w -= a * dw
         b -= a * db
-
-    data = (data - miu) / sigma
-    res = np.dot(w.transpose(), data) + b
-    return res
+    return w@data
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
