@@ -24,7 +24,7 @@ def lasso(data):
     for i in range(epochs):
             gradient = X.T*(X*W-y)/m + Lambda * np.sign(W)
             W=W-a * gradient
-        return W
+        return W@data
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
