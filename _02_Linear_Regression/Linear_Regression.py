@@ -1,6 +1,7 @@
 # 最终在main函数中传入一个维度为6的numpy数组，输出预测值
 
 import os
+import sympy as sy
 
 try:
     import numpy as np
@@ -10,7 +11,7 @@ except ImportError as e:
 
 def ridge(data):
    X,y = read_data()
-   a = 5
+   a = 4
    w = np.matmul(np.linalg.inv(np.matmul(X.T,X)+a*np.eye(X.shape[1])),np.matmul(X.T,y))
    return w@data
 
