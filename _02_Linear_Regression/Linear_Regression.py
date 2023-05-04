@@ -33,7 +33,7 @@ def lasso(data):
     for _ in range(epochs):
         y_hat = np.dot(x, w) + b  
 
-        dw = (np.dot(x.transpose(), (y_hat - y)) / num) + lamda * diff(w)
+        dw = (np.dot(x.transpose(), (y_hat - y)) / num) + lamda * np.gradient(w)
         db = np.sum(y_hat - y) / num
         w -= a * dw
         b -= a * db
