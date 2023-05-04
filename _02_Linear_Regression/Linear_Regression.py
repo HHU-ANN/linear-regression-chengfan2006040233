@@ -25,7 +25,7 @@ def lasso(data):
         loss = np.matmul((X - y).transpose(), X - y) + a * np.sum(abs(w))
         if loss < limit:
             break
-        dw = np.dot(X - y, X) + np.sign(w)
+        dw = np.matmul(X - y, X) + np.sign(w)
         w = w - step * dw
     return w@data
 def read_data(path='./data/exp02/'):
