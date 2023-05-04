@@ -12,26 +12,26 @@ except ImportError as e:
 def ridge(data):
     x, y = read_data()
     i = np.eye(6)
-    alpha = -0.1
-    weight = np.dot(np.linalg.inv(np.dot(x.T, x) + np.dot(alpha, i)), np.dot(x.T, y))
-    print(np.dot(alpha, i))
-    return data @ weight
+    a = -0.1
+    w = np.matmul(np.linalg.inv(np.matmul(x.transpose(), x) + np.matmul(a, i)), np.matmul(x.transpose(), y))
+    print(np.matmula, i))
+    return data @ w
 
 
 def lasso(data):
     x, y = read_data()
-    weight = np.array([0, 0, 0, 0, 0, 0])
-    label = 2e-5
-    alpha = 0.01
-    r = 1e-12
+    w = np.array([0, 0, 0, 0, 0, 0])
+    limit = 2e-5
+    a = 0.01
+    step = 1e-12
     for i in range(int(2e6)):
-        z = np.dot(x, weight)
-        loss = np.dot((z - y).T, z - y) + alpha * np.sum(abs(weight))
-        if loss < label:
+        z = np.matmul(x, w)
+        loss = np.matmul((z - y).transpose(), z - y) + a * np.sum(abs(w))
+        if loss < limit:
             break
-        dw = np.dot(z-y, x) + np.sign(weight)
-        weight = weight - r * dw
-    return data @ weight
+        dw = np.matmul(z-y, x) + np.sign(w)
+        w = w - step * dw
+    return data @ w
 
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
