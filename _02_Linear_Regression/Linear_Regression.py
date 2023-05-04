@@ -7,6 +7,17 @@ try:
 except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
+def piandao(w):
+    partial_l1 = [elem for elem in w]
+    for i in range(w.shape[0]):
+        if partial_l1[i] > 0:
+            partial_l1[i] = 1
+        elif partial_l1[i] < 0:
+            partial_l1[i] = -1
+        else:
+            partial_l1[i] = 0
+    partial_l1 = np.array([partial_l1]).transpose()
+    return partial_l1
 
 def ridge(data):
     X,y = read_data()
@@ -15,18 +26,29 @@ def ridge(data):
     return w@data
 
 def lasso(data):
-    x, y = read_data()
-    weight = np.array([0, 0, 0, 0, 0, 0])
-    label = 2e-5
-    alpha = 0.01
-    r = 1e-12
-    for i in range(int(2e6)):
-        loss = np.dot((x - y).T, x - y) + alpha * np.sum(abs(weight))
-        if loss < label:
-            break
-        dw = np.dot(x - y, x) + np.sign(weight)
-        weight = weight - r * dw
-    return data @ weight
+     x, y = read_data()
+    miu = np.mean(x)
+    sigma = np.std(x)
+    for i in range(x.shape[0]):
+        x[i] = (x[i] - miu) / sigma
+
+    y = np.array([y]).transpose() 
+    lamda = 1
+    step = 0.01
+    epochs = 1000
+    num = x.shape[0]
+    xlen = x.shape[1]
+    w, b = np.zeros((xlen, 1)), 0
+    for _ in range(epochs):
+        y_hat = np.dot(x, w) + b  
+        dw = (np.dot(x.transpose(), (y_hat - y)) / num) + lamda * piandao(w)
+        db = np.sum(y_hat - y) / num
+        w -= step * dw
+        b -= step * db
+    data = (data - miu) / sigma
+    res = np.dot(w.transpose(), data) + b
+    return res
+
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
