@@ -22,7 +22,7 @@ def lasso(data):
     limit = 2e-5
     a = 0.0001
     step = 1e-12
-    for i in range(1000):
+    for i in range(100000):
         X = np.dot(x, w)
         loss = np.dot((X - y).transpose(), X - y) + a * np.sum(abs(w))
         if loss < limit:
