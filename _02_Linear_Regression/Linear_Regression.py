@@ -15,19 +15,18 @@ def ridge(data):
     return w@data
 
 def lasso(data):
-    X, y = read_data()
-    w = np.zeros((X.shape[1], 1))
-    limit = 2e-5
-    a = 0.01
-    step = 0.00000001
-    epochs = 1000
-    for i in range(epochs):
-        loss = np.matmul((X - y).transpose(), X - y) + a * np.sum(abs(w))
-        if loss < limit:
+    x, y = read_data()
+    weight = np.array([0, 0, 0, 0, 0, 0])
+    label = 2e-5
+    alpha = 0.01
+    r = 1e-12
+    for i in range(int(2e6)):
+        loss = np.dot((x - y).T, x - y) + alpha * np.sum(abs(weight))
+        if loss < label:
             break
-        dw = np.matmul(X - y, X) + np.sign(w)
-        w = w - step * dw
-    return w@data
+        dw = np.dot(x - y, x) + np.sign(weight)
+        weight = weight - r * dw
+    return data @ weight
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
