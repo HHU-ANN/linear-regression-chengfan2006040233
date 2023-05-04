@@ -7,6 +7,13 @@ try:
 except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
+
+
+def ridge(data):
+    X,y = read_data()
+    a = 7
+    w = np.matmul(np.linalg.inv(np.matmul(X.T,X)+a*np.eye(X.shape[1])),np.matmul(X.T,y))
+    return w@data
 def piandao(w):
     partial_l1 = [elem for elem in w]
     for i in range(w.shape[0]):
@@ -18,13 +25,6 @@ def piandao(w):
             partial_l1[i] = 0
     partial_l1 = np.array([partial_l1]).transpose()
     return partial_l1
-
-def ridge(data):
-    X,y = read_data()
-    a = 7
-    w = np.matmul(np.linalg.inv(np.matmul(X.T,X)+a*np.eye(X.shape[1])),np.matmul(X.T,y))
-    return w@data
-
 def lasso(data):
      x, y = read_data()
     miu = np.mean(x)
