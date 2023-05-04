@@ -17,8 +17,9 @@ def ridge(data):
     print(np.dot(alpha, i))
     return data @ weight
 
+
 def lasso(data):
-   x, y = read_data()
+    x, y = read_data()
     weight = np.array([0, 0, 0, 0, 0, 0])
     label = 2e-5
     alpha = 0.01
@@ -31,6 +32,7 @@ def lasso(data):
         dw = np.dot(z-y, x) + np.sign(weight)
         weight = weight - r * dw
     return data @ weight
+
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
