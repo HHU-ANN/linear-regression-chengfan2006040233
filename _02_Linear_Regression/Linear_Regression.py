@@ -14,7 +14,7 @@ def ridge(data):
     i = np.eye(6)
     a = -0.1
     w = np.matmul(np.linalg.inv(np.matmul(x.transpose(), x) + np.matmul(a, i)), np.matmul(x.transpose(), y))
-    print(np.matmula, i))
+    print(np.matmula, i)
     return data @ w
 
 
